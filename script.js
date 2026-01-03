@@ -121,7 +121,7 @@ dropZoneGif.addEventListener("drop", (e) => {
 async function loadFFmpeg() {
     if (!ffmpeg.loaded) {
         status.textContent = "Loading FFmpeg...";
-        const baseURL = "/node_modules/@ffmpeg/core/dist/esm";
+        const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm";
         await ffmpeg.load({
             coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
             wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm"),
