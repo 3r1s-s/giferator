@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Giferator</title>
+    <link rel="stylesheet" href="https://eris.cafe/fonts.css">
+    <link rel="stylesheet" href="https://eris.cafe/fonts.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            font-family: "GG Sans", sans-serif;
+        }
+    </style>
+    <script src="script.js" type="module"></script>
+</head>
+
+<body class="dark">
+    <div class="app">
+        <div class="container sidebar">
+            <div class="header">
+                <h2>Giferator</h2>
+            </div>
+            <div class="tabs">
+                <div class="tab active" id="video-tab" data-tab="video">
+                    <span>Video</span>
+                </div>
+                <div class="tab" id="image-tab" data-tab="image">
+                    <span>GIF</span>
+                </div>
+            </div>
+            <div class="tab-content visible" id="video">
+                <div class="tab-main-content">
+                    <div id="dropZone" class="drop-zone">
+                        <input type="file" id="videoInput" accept="video/mp4,video/quicktime" style="display: none;" />
+                        <p>Drag & drop a video here</p>
+                        <p>or</p>
+                        <eui-button id="browseBtn" variant="outline">Browse Files</eui-button>
+                        <p id="fileName" class="file-name"></p>
+                    </div>
+                    <div>
+                        <eui-slider id="fps" min="1" max="30" value="10" label="FPS"></eui-slider>
+                    </div>
+                    <div>
+                        <eui-slider id="width" min="1" max="1920" value="320" label="Width"></eui-slider>
+                        <label id="heightLabel">
+                            <eui-slider id="height" min="1" max="1080" value="320" label="Height"></eui-slider>
+                        </label>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <span style="font-weight: 600;user-select: none;font-size: 0.85rem;">Auto Height</span>
+                            <eui-checkbox id="autoHeight"></eui-checkbox>
+                        </div>
+                    </div>
+                    <div>
+                        <eui-slider id="speed" min="0.5" max="4" value="1.0" step="0.5" label="Speed"></eui-slider>
+                    </div>
+                    <div>
+                        <eui-slider id="colors" min="4" max="256" value="64" step="4" label="Colors"></eui-slider>
+                    </div>
+                </div>
+                <div class="button-area">
+                    <eui-button id="convertBtn">Convert to GIF</eui-button>
+                </div>
+            </div>
+            <div class="tab-content" id="image">
+                <div class="tab-main-content">
+                    <div id="dropZoneGif" class="drop-zone">
+                        <input type="file" id="gifInput" accept="image/gif" style="display: none;" />
+                        <p>Drag & drop a GIF here</p>
+                        <p>or</p>
+                        <eui-button id="browseBtnGif" variant="outline">Browse Files</eui-button>
+                        <p id="fileNameGif" class="file-name"></p>
+                    </div>
+                    <div>
+                        <eui-slider id="fpsOpt" min="1" max="30" value="10" label="FPS"></eui-slider>
+                    </div>
+                    <div>
+                        <eui-slider id="widthOpt" min="1" max="1920" value="320" label="Width"></eui-slider>
+                        <label id="heightLabelOpt">
+                            <eui-slider id="heightOpt" min="1" max="1080" value="320" label="Height"></eui-slider>
+                        </label>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <span style="font-weight: 600;user-select: none;font-size: 0.85rem;">Auto Height</span>
+                            <eui-checkbox id="autoHeightOpt" selected></eui-checkbox>
+                        </div>
+                    </div>
+                    <div>
+                        <eui-slider id="speedOpt" min="0.5" max="4" value="1.0" step="0.5" label="Speed"></eui-slider>
+                    </div>
+                    <div>
+                        <eui-slider id="colorsOpt" min="4" max="256" value="64" step="4" label="Colors"></eui-slider>
+                    </div>
+                </div>
+                <div class="button-area">
+                    <eui-button id="optimizeBtn">Optimize GIF</eui-button>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="titlebar">
+                <div class="button-area-top">
+                    <div id="downloadBtn" class="nav-button"></div>
+                </div>
+            </div>
+            <div class="result">
+                <div class="status" style="display: none;">
+                    <p id="status"></p>
+                    <eui-progressbar id="progressBar" value="100"></eui-progressbar>
+                </div>
+
+                <img id="result" />
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

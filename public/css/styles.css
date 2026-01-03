@@ -1,0 +1,248 @@
+/* :root {
+    --app-100: #fff !important;
+    --app-200: #f6f6f6 !important;
+    --app-300: #e9e9e9 !important;
+    --app-400: #dedede !important;
+    --app-500: #d3d3d3 !important;
+    --app-600: #c7c7c7 !important;
+    --app-700: #bfbfbf !important;
+    --app-800: #b3b3b3 !important;
+    --app-900: #ababab !important;
+
+    --app-accent-50: #6de1d9 !important;
+    --app-accent: #62c9c2 !important;
+
+    --app-text: #000 !important;
+} */
+
+body {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+.app {
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+}
+
+.container {
+    border-radius: 18px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    --slider-track: var(--app-100);
+}
+
+.sidebar {
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--app-300);
+}
+
+.header {
+    padding: 20px;
+}
+
+.main {
+    flex-grow: 1;
+}
+
+.result {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    padding: 0px 10px;
+    overflow: hidden;
+}
+
+.tab {
+    position: relative;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
+    user-select: none;
+}
+
+.tab>span {
+    margin: 2px 0;
+}
+
+.tab.active {
+    background-color: var(--app-200);
+}
+
+.tab-content {
+    background-color: var(--app-200);
+    /* border-radius: 12px 12px 0 0; */
+    flex-direction: column;
+    height: 100%;
+
+    display: none;
+}
+
+.tab-content.visible {
+    display: flex;
+}
+
+.tab-main-content {
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.button-area {
+    padding: 10px 20px 50px 20px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+
+    background-color: var(--app-200);
+}
+
+.status {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: color-mix(in srgb, var(--app-100) 100%, transparent 10%);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 300px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.status p {
+    margin-top: 0;
+    font-weight: 700;
+    user-select: none;
+}
+
+.drop-zone {
+    border: 2px dashed var(--app-400);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background: var(--app-200);
+}
+
+.drop-zone.dragging {
+    border-color: var(--app-accent);
+}
+
+.drop-zone p {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--app-900);
+}
+
+.file-name {
+    font-weight: bold;
+    color: var(--app-600);
+    word-break: break-all;
+    margin-top: 10px;
+}
+
+/* tab stuff */
+
+body {
+    --tab-opacity: 1;
+    --tab-bg: color-mix(in srgb, var(--app-200) calc(var(--tab-opacity) * 100%), transparent);
+}
+
+.tab.active::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -10px;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle at top left, transparent 10px, var(--tab-bg) 10px);
+    pointer-events: none;
+}
+
+.tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: -10px;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle at top right, transparent 10px, var(--tab-bg) 10px);
+    pointer-events: none;
+}
+
+.tab.active,
+.tab-content {
+    background-color: var(--tab-bg);
+}
+
+/* titlebar */
+
+.titlebar {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.nav-button {
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.nav-button:hover {
+    background-color: var(--app-200);
+}
+
+.nav-button>eui-surface {
+    width: 42px;
+    height: 42px;
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 0;
+    background-color: transparent;
+}
+
+.nav-button eui-icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
