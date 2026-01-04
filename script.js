@@ -47,7 +47,7 @@ function updateEstimation(isOpt = false) {
         duration: duration
     });
 
-    display.textContent = `Expected Size: ${formatSize(size)}`;
+    display.textContent = `est: ${formatSize(size)}`;
 }
 
 ffmpeg.on("progress", ({ progress }) => {
