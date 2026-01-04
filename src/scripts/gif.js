@@ -83,3 +83,36 @@ export async function processOptimizeGif({
 
     return await ffmpeg.readFile(outputName);
 }
+
+export function calculateEstimatedSize({
+    width,
+    height,
+    fps,
+    colors,
+    speed,
+    duration
+}) {
+    if (!duration) return null;
+
+    // estimate based on color depth
+    const bitsPerPixel = Math.log2(colors);
+
+    const totalFrames = (duration / speed) * fps;
+    const bits = width * height * bitsPerPixel * totalFrames;
+
+    const bytes = bits / 8;
+
+    // typical gif compression factor (0.1 to 0.3 for optimized gifs)
+    const compressionFactor = 0.15;
+
+    return bytes * compressionFactor;
+}
+
+export function formatSize(bytes) {
+    if (bytes === null || bytes === undefined) return "";
+    if (bytes === 0) return "0 B";
+    const k = 1024;
+    const sizes = ["B", "KB", "MB", "GB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+}

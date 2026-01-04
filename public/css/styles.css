@@ -132,10 +132,17 @@ body {
 .button-area {
     padding: 10px 20px 50px 20px;
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
 
     background-color: var(--app-200);
+}
+
+#expectedSizeOpt,
+#expectedSize {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--app-900);
 }
 
 .status {
@@ -309,5 +316,10 @@ body {
     eui-slider {
         margin: 0.75rem auto;
         max-width: 100%;
+    }
+
+    .button-area {
+        position: sticky;
+        bottom: 0;
     }
 }

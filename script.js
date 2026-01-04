@@ -1,6 +1,6 @@
 import "@3r1s_s/erisui/style.css";
 import { registerIcons } from './src/scripts/icons.js';
-import { loadFFmpeg, ffmpeg, processVideoToGif, processOptimizeGif } from './src/scripts/gif.js';
+import { loadFFmpeg, ffmpeg, processVideoToGif, processOptimizeGif, calculateEstimatedSize, formatSize } from './src/scripts/gif.js';
 import { setupTabs, setupSidebarResize, updateAutoHeight } from './src/scripts/ui.js';
 
 registerIcons();
@@ -25,6 +25,30 @@ const progressBar = document.getElementById("progressBar");
 let selectedFile = null;
 let selectedGif = null;
 let lastGeneratedBlob = null;
+let videoDuration = 0;
+let gifDuration = 0;
+
+function updateEstimation(isOpt = false) {
+    const suffix = isOpt ? "Opt" : "";
+    const display = document.getElementById("expectedSize" + suffix);
+    const duration = isOpt ? gifDuration : videoDuration;
+
+    if (!duration) {
+        display.textContent = "";
+        return;
+    }
+
+    const size = calculateEstimatedSize({
+        width: parseInt(document.getElementById("width" + suffix).value),
+        height: parseInt(document.getElementById("height" + suffix).value),
+        fps: parseInt(document.getElementById("fps" + suffix).value),
+        colors: parseInt(document.getElementById("colors" + suffix).value),
+        speed: parseFloat(document.getElementById("speed" + suffix).value),
+        duration: duration
+    });
+
+    display.textContent = `Expected Size: ${formatSize(size)}`;
+}
 
 ffmpeg.on("progress", ({ progress }) => {
     if (progress > 1) {
@@ -47,11 +71,19 @@ document.getElementById("autoHeightOpt").addEventListener("change", () => {
 updateAutoHeight(false, ah);
 updateAutoHeight(true, ahOpt);
 
+["width", "height", "fps", "colors", "speed"].forEach(id => {
+    document.getElementById(id).addEventListener("input", () => updateEstimation(false));
+    document.getElementById(id + "Opt").addEventListener("input", () => updateEstimation(true));
+});
+
 function handleFile(file, isGif = false) {
     if (isGif) {
         if (file && file.type === "image/gif") {
             selectedGif = file;
             fileNameGif.textContent = `Selected: ${file.name}`;
+
+            gifDuration = 5;
+            updateEstimation(true);
         } else {
             alert("Please select a valid GIF.");
         }
@@ -59,6 +91,14 @@ function handleFile(file, isGif = false) {
         if (file && (file.type === "video/mp4" || file.type === "video/quicktime")) {
             selectedFile = file;
             fileNameDisplay.textContent = `Selected: ${file.name}`;
+
+            const video = document.createElement("video");
+            video.preload = "metadata";
+            video.onloadedmetadata = () => {
+                videoDuration = video.duration;
+                updateEstimation(false);
+            };
+            video.src = URL.createObjectURL(file);
         } else {
             alert("Please select a valid video file.");
         }
