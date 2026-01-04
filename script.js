@@ -243,7 +243,6 @@ document.getElementById("optimizeBtn").addEventListener("click", async () => {
     progressBar.value = 100;
 });
 
-// change download icon
 document.getElementById("downloadBtn").innerHTML = `
 <eui-surface ripple interactive>
 <eui-icon name="download" width="18" height="18" style="padding-bottom:2px;"></eui-icon>
@@ -268,3 +267,50 @@ document.querySelectorAll(".tab").forEach(tab => {
         document.getElementById(tab.dataset.tab).classList.add("visible");
     });
 });
+
+// mobile sidebar
+
+const touchTarget = document.getElementById("touch-target");
+const sidebar = document.querySelector(".sidebar");
+let isDragging = false;
+let startY = 0;
+let startHeight = 0;
+
+function startDrag(e) {
+    if (window.innerWidth > 768) return;
+    isDragging = true;
+    startY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
+    startHeight = sidebar.offsetHeight;
+    sidebar.style.transition = "none";
+    document.body.style.cursor = "ns-resize";
+}
+
+function handleDrag(e) {
+    if (!isDragging) return;
+    const currentY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
+    const deltaY = startY - currentY;
+    let newHeight = startHeight + deltaY;
+
+    const minHeight = 100;
+    const maxHeight = window.innerHeight * 0.9;
+    newHeight = Math.max(minHeight, Math.min(newHeight, maxHeight));
+
+    sidebar.style.height = `${newHeight}px`;
+    sidebar.style.maxHeight = `${maxHeight}px`;
+}
+
+function stopDrag() {
+    if (!isDragging) return;
+    isDragging = false;
+    sidebar.style.transition = "";
+    document.body.style.cursor = "";
+}
+
+touchTarget.addEventListener("mousedown", startDrag);
+touchTarget.addEventListener("touchstart", startDrag, { passive: true });
+
+window.addEventListener("mousemove", handleDrag);
+window.addEventListener("touchmove", handleDrag, { passive: false });
+
+window.addEventListener("mouseup", stopDrag);
+window.addEventListener("touchend", stopDrag);
